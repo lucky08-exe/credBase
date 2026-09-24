@@ -275,12 +275,14 @@ def get_credential(credential_id: str):
     item["enrichment"] = enriched_map.get(item["id"], None)
     return item
 
-# Mount static folder
+# Mount static folder (guarded — may not exist in serverless environments)
 static_dir = os.path.join(os.path.dirname(__file__), "static")
-if not os.path.exists(static_dir):
-    os.makedirs(static_dir, exist_ok=True)
-
-app.mount("/static", StaticFiles(directory=static_dir), name="static")
+try:
+    if os.path.isdir(static_dir):
+        from fastapi.staticfiles import StaticFiles
+        app.mount("/static", StaticFiles(directory=static_dir), name="static")
+except Exception as _e:
+    print(f"Warning: could not mount /static — {_e}")
 
 @app.get("/")
 def serve_index():
@@ -292,3 +294,7 @@ def serve_index():
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("app:app", host="127.0.0.1", port=8000, reload=True)
+
+# Vercel / AWS Lambda serverless entry point
+from mangum import Mangum
+handler = Mangum(app)
