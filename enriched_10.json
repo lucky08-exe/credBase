@@ -1,0 +1,285 @@
+[
+  {
+    "id": "course_templates_1197",
+    "title": "SecOps on GDC for Tier 3 Analysts",
+    "type": "course",
+    "level": "intermediate",
+    "duration_minutes": 225,
+    "url": "https://www.skills.google/course_templates/1197",
+    "description": "This course gives you a deep dive into the workflows of Tier 3 analysts.",
+    "enrichment": {
+      "summary": "Advanced security operations training for Tier 3 SOC analysts working on Google Distributed Cloud environments.",
+      "skills": [
+        "Security Operations",
+        "Incident Response",
+        "GDC (Google Distributed Cloud)",
+        "Threat Analysis",
+        "SIEM"
+      ],
+      "domains": [
+        "Cybersecurity",
+        "Cloud Security"
+      ],
+      "career_paths": [
+        "Security Analyst",
+        "SOC Tier 3 Analyst",
+        "Cybersecurity Specialist"
+      ]
+    }
+  },
+  {
+    "id": "course_templates_1430",
+    "title": "Network Observability on Google Cloud",
+    "type": "course",
+    "level": "intermediate",
+    "duration_minutes": 45,
+    "url": "https://www.skills.google/course_templates/1430",
+    "description": "This mini-course will empower users to understand Network Observability in Google Cloud to gain comprehensive visibility into their network traffic, proactively identify issues, and optimize their infrastructure. By understanding how Network Observability works in Google Cloud, organizations can ensure seamless application delivery and enhance their overall cloud architecture and operations.",
+    "enrichment": {
+      "summary": "Learn to monitor, diagnose, and optimize Google Cloud network traffic and telemetry using native observability tools.",
+      "skills": [
+        "Network Observability",
+        "Packet Mirroring",
+        "VPC Flow Logs",
+        "Network Intelligence Center",
+        "Cloud Monitoring"
+      ],
+      "domains": [
+        "Cloud Networking",
+        "DevOps & SRE"
+      ],
+      "career_paths": [
+        "Cloud Network Engineer",
+        "SRE (Site Reliability Engineer)",
+        "Cloud Architect"
+      ]
+    }
+  },
+  {
+    "id": "course_templates_536",
+    "title": "Introduction to Generative AI",
+    "type": "course",
+    "level": "introductory",
+    "duration_minutes": 45,
+    "url": "https://www.skills.google/course_templates/536",
+    "description": "This is an introductory level microlearning course aimed at explaining what Generative AI is, how it is used, and how it differs from traditional machine learning methods. It also covers Google Tools to help you develop your own Gen AI apps.",
+    "enrichment": {
+      "summary": "Foundational course introducing Generative AI concepts, LLM architecture, and Google's Generative AI ecosystem.",
+      "skills": [
+        "Generative AI",
+        "Large Language Models",
+        "Prompting Concepts",
+        "Responsible AI",
+        "Google AI Tools"
+      ],
+      "domains": [
+        "Artificial Intelligence",
+        "Machine Learning"
+      ],
+      "career_paths": [
+        "AI Product Manager",
+        "AI Application Developer",
+        "Data Scientist"
+      ]
+    }
+  },
+  {
+    "id": "course_templates_623",
+    "title": "Derive Insights from BigQuery Data",
+    "type": "course",
+    "level": "introductory",
+    "duration_minutes": 45,
+    "url": "https://www.skills.google/course_templates/623",
+    "description": "Complete the introductory Derive Insights from BigQuery Data skill badge course to demonstrate skills in the following: Write SQL queries.Query public tables.Load sample data into BigQuery.Troubleshoot common syntax errors with the query validator in BigQuery.Create reports in Data Studio by connecting to BigQuery data.",
+    "enrichment": {
+      "summary": "Skill badge course covering SQL querying, public dataset exploration, syntax troubleshooting, and Looker Studio reporting in BigQuery.",
+      "skills": [
+        "SQL",
+        "BigQuery",
+        "Data Visualization",
+        "Looker Studio",
+        "Data Analysis",
+        "Query Optimization"
+      ],
+      "domains": [
+        "Data Analytics",
+        "Cloud Data Warehousing"
+      ],
+      "career_paths": [
+        "Data Analyst",
+        "Business Intelligence Analyst",
+        "Data Engineer"
+      ]
+    }
+  },
+  {
+    "id": "course_templates_746",
+    "title": "Managing Cloud Infrastructure with Terraform",
+    "type": "course",
+    "level": "intermediate",
+    "duration_minutes": 225,
+    "url": "https://www.skills.google/course_templates/746",
+    "description": "In this Quest, the experienced user of Google Cloud will learn how to describe and launch cloud resources with Terraform, an open source tool that codifies APIs into declarative configuration files that can be shared amongst team members, treated as code, edited, reviewed, and versioned.  In these nine hands-on labs, you will work with example templates and understand how to launch a range of configurations, from simple servers, through full load-balanced applications.",
+    "enrichment": {
+      "summary": "Comprehensive course on automating and managing Google Cloud infrastructure using HashiCorp Terraform.",
+      "skills": [
+        "Terraform",
+        "Infrastructure as Code (IaC)",
+        "HCL",
+        "GCP Resource Provisioning",
+        "Terraform State Management"
+      ],
+      "domains": [
+        "Cloud DevOps",
+        "Infrastructure Engineering"
+      ],
+      "career_paths": [
+        "DevOps Engineer",
+        "Cloud Engineer",
+        "Infrastructure Architect"
+      ]
+    }
+  },
+  {
+    "id": "course_templates_783",
+    "title": "Manage Kubernetes in Google Cloud",
+    "type": "course",
+    "level": "intermediate",
+    "duration_minutes": 30,
+    "url": "https://www.skills.google/course_templates/783",
+    "description": "Complete the intermediate Manage Kubernetes in Google Cloud skill badge course to demonstrate skills in the following: managing deployments with kubectl, monitoring and debugging applications on Google Kubernetes Engine (GKE), and continuous delivery techniques.",
+    "enrichment": {
+      "summary": "Skill badge course covering GKE deployment scaling, kubectl application debugging, and metric collection using Managed Prometheus.",
+      "skills": [
+        "Kubernetes",
+        "GKE (Google Kubernetes Engine)",
+        "kubectl",
+        "Container Management",
+        "Continuous Delivery",
+        "Prometheus"
+      ],
+      "domains": [
+        "Containerization & Orchestration",
+        "Cloud DevOps"
+      ],
+      "career_paths": [
+        "Kubernetes Engineer",
+        "DevOps Engineer",
+        "Cloud Infrastructure Engineer"
+      ]
+    }
+  },
+  {
+    "id": "course_templates_927",
+    "title": "Machine Learning Operations (MLOps) for Generative AI",
+    "type": "course",
+    "level": "intermediate",
+    "duration_minutes": 30,
+    "url": "https://www.skills.google/course_templates/927",
+    "description": "This course is dedicated to equipping you with the knowledge and tools needed to uncover the unique challenges faced by MLOps teams when deploying and managing Generative AI models, and exploring how Gemini Enterprise Agent Platform empowers AI teams to streamline MLOps processes and achieve success in Generative AI projects.",
+    "enrichment": {
+      "summary": "Practice operationalizing, deploying, and monitoring Generative AI models using MLOps best practices on Google Cloud.",
+      "skills": [
+        "MLOps",
+        "Model Deployment",
+        "Model Monitoring",
+        "Vertex AI",
+        "Generative AI Pipelines",
+        "CI/CD for ML"
+      ],
+      "domains": [
+        "Machine Learning Engineering",
+        "AI Operations"
+      ],
+      "career_paths": [
+        "MLOps Engineer",
+        "Machine Learning Engineer",
+        "AI Infrastructure Engineer"
+      ]
+    }
+  },
+  {
+    "id": "focuses_23118",
+    "title": "BigQuery Soccer Data Analysis",
+    "type": "lab",
+    "level": "intermediate",
+    "duration_minutes": 15,
+    "url": "https://www.skills.google/focuses/23118",
+    "description": "Learn the fundamentals of writing and executing queries to query soccer data stored in BigQuery tables.",
+    "enrichment": {
+      "summary": "Hands-on lab writing complex SQL queries and joins on BigQuery tables to derive statistical insights from soccer match events.",
+      "skills": [
+        "SQL Joins",
+        "BigQuery",
+        "Data Aggregation",
+        "Sports Analytics",
+        "SAFE_DIVIDE",
+        "UNNEST"
+      ],
+      "domains": [
+        "Data Analytics",
+        "Sports Data Science"
+      ],
+      "career_paths": [
+        "Data Analyst",
+        "Sports Analytics Specialist"
+      ]
+    }
+  },
+  {
+    "id": "focuses_49746",
+    "title": "Using BigQuery Omni with AWS",
+    "type": "lab",
+    "level": "advanced",
+    "duration_minutes": 40,
+    "url": "https://www.skills.google/focuses/49746",
+    "description": "In this lab, you will run BigQuery analytics on data stored in AWS S3 using BigQuery Omni.",
+    "enrichment": {
+      "summary": "Advanced hands-on lab running cross-cloud BigQuery SQL analytics directly over data stored in AWS S3 buckets.",
+      "skills": [
+        "BigQuery Omni",
+        "Multi-Cloud Analytics",
+        "AWS S3 Integration",
+        "Cross-Cloud SQL",
+        "BigQuery"
+      ],
+      "domains": [
+        "Multi-Cloud Data Analytics",
+        "Cloud Data Warehousing"
+      ],
+      "career_paths": [
+        "Data Engineer",
+        "Multi-Cloud Architect",
+        "Senior Data Analyst"
+      ]
+    }
+  },
+  {
+    "id": "paths_3135",
+    "title": "Google DeepMind: AI Research Foundations",
+    "type": "learning_path",
+    "level": null,
+    "duration_minutes": 2973,
+    "url": "https://www.skills.google/paths/3135",
+    "description": "Google DeepMind’s AI Research Foundations curriculum will deepen your understanding of the AI technologies behind language models like Google Gemini, and will teach you how to build and fine-tune modern language models from the ground up. It is designed for university students and community learners who are proficient in python, and studying computer science, math, physics or other technical subjects.",
+    "enrichment": {
+      "summary": "Learning path covering foundational research topics, model architectures, and core principles from Google DeepMind.",
+      "skills": [
+        "Deep Learning",
+        "Neural Networks",
+        "AI Research Methodologies",
+        "TensorFlow / JAX",
+        "Transformers"
+      ],
+      "domains": [
+        "AI Research",
+        "Deep Learning"
+      ],
+      "career_paths": [
+        "AI Research Scientist",
+        "Machine Learning Researcher",
+        "Deep Learning Engineer"
+      ]
+    }
+  }
+]

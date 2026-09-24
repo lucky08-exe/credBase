@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Skills Finder — Discover 1,390+ Cloud Labs & Courses</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            google: {
+              blue: '#1a73e8',
+              hover: '#1557b0',
+              red: '#ea4335',
+              yellow: '#fbbc04',
+              green: '#34a853',
+              dark: '#202124',
+              surface: '#f8fafd'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .line-clamp-2 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .line-clamp-3 {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+    }
+  </style>
+</head>
+<body class="bg-[#f8f9fa] text-slate-800 font-sans min-h-screen flex flex-col antialiased">
+
+  <!-- TOP HEADER / NAV -->
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="resetAllFilters()">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-sky-500 flex items-center justify-center text-white shadow-md shadow-blue-500/20">
+          <i class="fa-solid fa-graduation-cap text-lg"></i>
+        </div>
+        <div>
+          <span class="font-display font-extrabold text-xl tracking-tight text-slate-900 flex items-center gap-1.5">
+            Google Skills <span class="text-blue-600">Finder</span>
+          </span>
+          <span class="text-[11px] block font-medium text-slate-500 -mt-1">Free Catalog & Certification Explorer</span>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-3">
+        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          100% Free Access
+        </span>
+        <div class="hidden sm:flex items-center gap-2 px-3 py-1 rounded-lg text-xs font-medium text-slate-600 bg-slate-100 border border-slate-200">
+          <i class="fa-solid fa-database text-slate-400"></i>
+          <span id="nav-total-count">1,393</span> Credentials
+        </div>
+        <a href="https://github.com" target="_blank" class="p-2 text-slate-500 hover:text-slate-900 rounded-lg hover:bg-slate-100 transition" title="Project on GitHub">
+          <i class="fa-brands fa-github text-lg"></i>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="bg-gradient-to-b from-white via-blue-50/40 to-[#f8f9fa] border-b border-slate-200/80 pt-10 pb-8 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200 mb-4">
+        <i class="fa-solid fa-sparkles text-blue-500"></i>
+        Interactive Search & Filtering Engine
+      </div>
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-display text-slate-900 tracking-tight leading-tight">
+        Discover <span class="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Google Cloud Credentials</span>
+      </h1>
+      <p class="mt-3 text-slate-600 text-sm sm:text-base max-w-2xl mx-auto">
+        Search and filter through 1,393 official Google Cloud labs, skill badge courses, and learning paths. Zero friction, completely free.
+      </p>
+
+      <!-- SEARCH BAR -->
+      <div class="mt-6 relative max-w-2xl mx-auto">
+        <div class="relative flex items-center">
+          <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+            <i class="fa-solid fa-magnifying-glass text-lg"></i>
+          </div>
+          <input 
+            type="text" 
+            id="search-input" 
+            placeholder="Search by topic, service (e.g. BigQuery, Kubernetes, GenAI, Terraform)..." 
+            class="w-full pl-11 pr-24 py-3.5 bg-white rounded-2xl border border-slate-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-slate-900 placeholder-slate-400 text-sm sm:text-base transition"
+            oninput="handleSearchInput(event)"
+            onkeydown="handleSearchKeydown(event)"
+          />
+          <button 
+            id="search-clear-btn" 
+            onclick="clearSearch()" 
+            class="hidden absolute right-12 text-slate-400 hover:text-slate-600 p-1 mr-1"
+            title="Clear search"
+          >
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+          <div class="absolute right-3 flex items-center">
+            <kbd class="hidden sm:inline-block px-2 py-1 text-[11px] font-semibold text-slate-400 bg-slate-100 border border-slate-200 rounded-md">
+              /
+            </kbd>
+          </div>
+        </div>
+      </div>
+
+      <!-- POPULAR QUICK TAGS -->
+      <div class="mt-4 flex flex-wrap items-center justify-center gap-1.5 text-xs text-slate-500">
+        <span class="font-medium text-slate-400 mr-1">Trending:</span>
+        <button onclick="setQuery('BigQuery')" class="px-2.5 py-1 rounded-full bg-white hover:bg-blue-50 hover:text-blue-600 border border-slate-200 transition">📊 BigQuery</button>
+        <button onclick="setQuery('Kubernetes')" class="px-2.5 py-1 rounded-full bg-white hover:bg-blue-50 hover:text-blue-600 border border-slate-200 transition">☸️ Kubernetes</button>
+        <button onclick="setQuery('Generative AI')" class="px-2.5 py-1 rounded-full bg-white hover:bg-blue-50 hover:text-blue-600 border border-slate-200 transition">🤖 Generative AI</button>
+        <button onclick="setQuery('Terraform')" class="px-2.5 py-1 rounded-full bg-white hover:bg-blue-50 hover:text-blue-600 border border-slate-200 transition">🏗️ Terraform</button>
+        <button onclick="setQuery('Security')" class="px-2.5 py-1 rounded-full bg-white hover:bg-blue-50 hover:text-blue-600 border border-slate-200 transition">🛡️ Security</button>
+        <button onclick="setDurationFilter('<1h')" class="px-2.5 py-1 rounded-full bg-white hover:bg-emerald-50 hover:text-emerald-700 border border-slate-200 transition">⚡ &lt; 1 Hour</button>
+        <button onclick="toggleEnrichedOnly(true)" class="px-2.5 py-1 rounded-full bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 transition font-medium">✨ AI Enriched</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN APP CONTAINER -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
+
+      <!-- LEFT SIDEBAR FILTERS -->
+      <aside class="lg:col-span-1 bg-white p-5 rounded-2xl border border-slate-200 shadow-xs lg:sticky lg:top-24 space-y-6">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+          <h2 class="font-display font-bold text-slate-900 text-base flex items-center gap-2">
+            <i class="fa-solid fa-sliders text-blue-600 text-sm"></i>
+            Filter Catalog
+          </h2>
+          <button onclick="resetAllFilters()" class="text-xs text-blue-600 hover:text-blue-800 font-medium">
+            Reset All
+          </button>
+        </div>
+
+        <!-- FILTER: Credential Type -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2.5">
+            Credential Type
+          </label>
+          <div class="space-y-1.5" id="type-filter-options">
+            <button onclick="setTypeFilter('all')" class="type-btn w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-slate-700 hover:bg-slate-50 transition border border-transparent" data-type="all">
+              <span class="flex items-center gap-2"><i class="fa-solid fa-border-all text-slate-400"></i> All Types</span>
+              <span class="text-slate-400 text-[11px]" id="count-type-all">1393</span>
+            </button>
+            <button onclick="setTypeFilter('lab')" class="type-btn w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-slate-700 hover:bg-slate-50 transition border border-transparent" data-type="lab">
+              <span class="flex items-center gap-2"><i class="fa-solid fa-flask text-emerald-500"></i> Hands-on Lab</span>
+              <span class="text-slate-400 text-[11px]" id="count-type-lab">879</span>
+            </button>
+            <button onclick="setTypeFilter('course')" class="type-btn w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-slate-700 hover:bg-slate-50 transition border border-transparent" data-type="course">
+              <span class="flex items-center gap-2"><i class="fa-solid fa-book-open text-blue-500"></i> Skill Course</span>
+              <span class="text-slate-400 text-[11px]" id="count-type-course">489</span>
+            </button>
+            <button onclick="setTypeFilter('path')" class="type-btn w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-slate-700 hover:bg-slate-50 transition border border-transparent" data-type="path">
+              <span class="flex items-center gap-2"><i class="fa-solid fa-route text-purple-500"></i> Learning Path</span>
+              <span class="text-slate-400 text-[11px]" id="count-type-path">25</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- FILTER: Difficulty Level -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2.5">
+            Difficulty Level
+          </label>
+          <div class="space-y-1.5" id="level-filter-options">
+            <button onclick="setLevelFilter('all')" class="level-btn w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-slate-700 hover:bg-slate-50 transition border border-transparent" data-level="all">
+              <span>All Levels</span>
+              <span class="text-slate-400 text-[11px]" id="count-level-all">1393</span>
+            </button>
+            <button onclick="setLevelFilter('introductory')" class="level-btn w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-slate-700 hover:bg-slate-50 transition border border-transparent" data-level="introductory">
+              <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> Introductory</span>
+              <span class="text-slate-400 text-[11px]" id="count-level-intro">792</span>
+            </button>
+            <button onclick="setLevelFilter('intermediate')" class="level-btn w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-slate-700 hover:bg-slate-50 transition border border-transparent" data-level="intermediate">
+              <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-amber-500"></span> Intermediate</span>
+              <span class="text-slate-400 text-[11px]" id="count-level-inter">423</span>
+            </button>
+            <button onclick="setLevelFilter('advanced')" class="level-btn w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-slate-700 hover:bg-slate-50 transition border border-transparent" data-level="advanced">
+              <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-purple-500"></span> Advanced</span>
+              <span class="text-slate-400 text-[11px]" id="count-level-adv">71</span>
+            </button>
+            <button onclick="setLevelFilter('unspecified')" class="level-btn w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-slate-700 hover:bg-slate-50 transition border border-transparent" data-level="unspecified">
+              <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-slate-300"></span> Unspecified</span>
+              <span class="text-slate-400 text-[11px]" id="count-level-unspec">107</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- FILTER: Duration -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2.5">
+            Estimated Duration
+          </label>
+          <div class="space-y-1.5" id="duration-filter-options">
+            <button onclick="setDurationFilter('all')" class="dur-btn w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-slate-700 hover:bg-slate-50 transition border border-transparent" data-duration="all">
+              <span>Any Duration</span>
+            </button>
+            <button onclick="setDurationFilter('<30m')" class="dur-btn w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-slate-700 hover:bg-slate-50 transition border border-transparent" data-duration="<30m">
+              <span>⚡ Quick (&le; 30 min)</span>
+              <span class="text-slate-400 text-[11px]" id="count-dur-30m">286</span>
+            </button>
+            <button onclick="setDurationFilter('<1h')" class="dur-btn w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-slate-700 hover:bg-slate-50 transition border border-transparent" data-duration="<1h">
+              <span>⏱️ Short (&le; 1 hour)</span>
+              <span class="text-slate-400 text-[11px]" id="count-dur-1h">828</span>
+            </button>
+            <button onclick="setDurationFilter('1-3h')" class="dur-btn w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-slate-700 hover:bg-slate-50 transition border border-transparent" data-duration="1-3h">
+              <span>📚 Medium (1 - 3 hours)</span>
+              <span class="text-slate-400 text-[11px]" id="count-dur-1-3h">395</span>
+            </button>
+            <button onclick="setDurationFilter('>3h')" class="dur-btn w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-slate-700 hover:bg-slate-50 transition border border-transparent" data-duration=">3h">
+              <span>🎯 Deep Dive (&gt; 3 hours)</span>
+              <span class="text-slate-400 text-[11px]" id="count-dur-3h">170</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- FILTER: AI Enriched Only -->
+        <div class="pt-2 border-t border-slate-100">
+          <label class="flex items-center justify-between cursor-pointer group">
+            <span class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+              <i class="fa-solid fa-sparkles text-amber-500"></i> AI Enriched Only
+            </span>
+            <input type="checkbox" id="enriched-checkbox" onchange="toggleEnrichedOnly(this.checked)" class="sr-only peer">
+            <div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600 relative"></div>
+          </label>
+          <p class="text-[11px] text-slate-400 mt-1">Show items with curated skill tags & career paths.</p>
+        </div>
+      </aside>
+
+      <!-- RIGHT RESULTS COLUMN -->
+      <section class="lg:col-span-3 space-y-6">
+        
+        <!-- CONTROLS & ACTIVE FILTERS BAR -->
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-wrap items-center justify-between gap-4">
+          <div class="flex items-center gap-2">
+            <span class="font-display font-bold text-slate-900 text-sm" id="results-count-text">
+              Showing 0 credentials
+            </span>
+            <div id="loading-spinner" class="hidden text-blue-600 animate-spin text-sm ml-2">
+              <i class="fa-solid fa-circle-notch"></i>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <label class="text-xs font-semibold text-slate-500">Sort by:</label>
+            <select id="sort-select" onchange="handleSortChange(this.value)" class="text-xs font-medium text-slate-700 bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500">
+              <option value="relevance">Relevance / Match</option>
+              <option value="title_asc">Title (A - Z)</option>
+              <option value="title_desc">Title (Z - A)</option>
+              <option value="duration_asc">Shortest Duration</option>
+              <option value="duration_desc">Longest Duration</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- ACTIVE FILTER PILLS -->
+        <div id="active-pills" class="flex flex-wrap items-center gap-1.5 text-xs empty:hidden"></div>
+
+        <!-- CREDENTIAL CARDS GRID -->
+        <div id="credentials-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+          <!-- Cards dynamically injected here -->
+        </div>
+
+        <!-- EMPTY STATE -->
+        <div id="empty-state" class="hidden text-center py-16 bg-white rounded-2xl border border-slate-200 p-8">
+          <div class="w-16 h-16 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-4 text-2xl">
+            <i class="fa-solid fa-filter-circle-xmark"></i>
+          </div>
+          <h3 class="font-display font-bold text-slate-800 text-lg">No credentials found</h3>
+          <p class="text-slate-500 text-xs sm:text-sm mt-1 max-w-sm mx-auto">
+            We couldn't find any credentials matching your current search or filter combination.
+          </p>
+          <button onclick="resetAllFilters()" class="mt-4 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium text-xs shadow-sm transition">
+            Reset All Filters
+          </button>
+        </div>
+
+        <!-- PAGINATION CONTROLS -->
+        <div id="pagination-container" class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-wrap items-center justify-between gap-4">
+          <div class="text-xs text-slate-500" id="pagination-info">
+            Page 1 of 1
+          </div>
+          <div class="flex items-center gap-1.5" id="pagination-buttons">
+            <!-- Buttons dynamically generated -->
+          </div>
+        </div>
+
+      </section>
+    </div>
+  </main>
+
+  <!-- DETAIL MODAL -->
+  <div id="detail-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 hidden" onclick="handleModalBackdropClick(event)">
+    <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-200 p-6 sm:p-8 animate-in fade-in zoom-in-95 duration-150" onclick="event.stopPropagation()">
+      <div class="flex items-start justify-between gap-4 border-b border-slate-100 pb-4">
+        <div>
+          <div class="flex flex-wrap items-center gap-2 mb-2" id="modal-badges"></div>
+          <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900" id="modal-title"></h2>
+        </div>
+        <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600 p-2 rounded-xl hover:bg-slate-100 transition">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <div class="py-5 space-y-5 text-sm text-slate-600">
+        <div>
+          <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Description</h4>
+          <p id="modal-description" class="leading-relaxed"></p>
+        </div>
+
+        <!-- AI Enrichment Section (if available) -->
+        <div id="modal-enrichment-section" class="hidden p-4 rounded-2xl bg-gradient-to-br from-blue-50/60 to-indigo-50/40 border border-blue-100 space-y-3">
+          <div class="flex items-center gap-1.5 text-xs font-bold text-blue-700">
+            <i class="fa-solid fa-sparkles"></i> AI Enriched Insights
+          </div>
+          <p id="modal-ai-summary" class="text-xs text-slate-700 italic"></p>
+          <div>
+            <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Target Skills</span>
+            <div id="modal-skills" class="flex flex-wrap gap-1"></div>
+          </div>
+          <div>
+            <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Career Paths</span>
+            <div id="modal-careers" class="flex flex-wrap gap-1"></div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2 text-xs">
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-100">
+            <span class="text-slate-400 block text-[10px] uppercase font-bold">Estimated Time</span>
+            <span class="font-semibold text-slate-800" id="modal-duration"></span>
+          </div>
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-100">
+            <span class="text-slate-400 block text-[10px] uppercase font-bold">Difficulty Level</span>
+            <span class="font-semibold text-slate-800 capitalize" id="modal-level"></span>
+          </div>
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-100">
+            <span class="text-slate-400 block text-[10px] uppercase font-bold">Tuition / Cost</span>
+            <span class="font-semibold text-emerald-600">Free / Open</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-4 border-t border-slate-100 flex items-center justify-end gap-3">
+        <button onclick="closeModal()" class="px-4 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50 transition">
+          Close
+        </button>
+        <a id="modal-launch-btn" href="#" target="_blank" class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-500/20 transition flex items-center gap-1.5">
+          Open on Google Skills <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-white border-t border-slate-200 py-6 mt-12 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4">
+      <p class="font-medium text-slate-600">Google Skills Finder &bull; Version 1.0</p>
+      <p class="mt-1 text-slate-400">Powered by FastAPI, SQLite Full-Text Search (FTS5), and Google Skills catalog data.</p>
+    </div>
+  </footer>
+
+  <!-- CLIENT JAVASCRIPT -->
+  <script>
+    // State
+    const state = {
+      q: '',
+      type: 'all',
+      level: 'all',
+      duration_bracket: 'all',
+      enriched_only: false,
+      sort: 'relevance',
+      page: 1,
+      page_size: 24,
+      total: 0,
+      total_pages: 1
+    };
+
+    let debounceTimer = null;
+
+    // Initialize on load
+    window.addEventListener('DOMContentLoaded', () => {
+      syncStateFromUrl();
+      fetchFilters();
+      fetchCredentials();
+
+      // Keyboard shortcut: '/' to focus search
+      window.addEventListener('keydown', (e) => {
+        if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+          e.preventDefault();
+          document.getElementById('search-input').focus();
+        }
+      });
+    });
+
+    function syncStateFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.has('q')) state.q = params.get('q');
+      if (params.has('type')) state.type = params.get('type');
+      if (params.has('level')) state.level = params.get('level');
+      if (params.has('duration')) state.duration_bracket = params.get('duration');
+      if (params.has('sort')) state.sort = params.get('sort');
+      if (params.has('page')) state.page = parseInt(params.get('page')) || 1;
+      if (params.has('enriched')) state.enriched_only = params.get('enriched') === 'true';
+
+      // Update UI elements
+      document.getElementById('search-input').value = state.q;
+      if (state.q) document.getElementById('search-clear-btn').classList.remove('hidden');
+      document.getElementById('sort-select').value = state.sort;
+      document.getElementById('enriched-checkbox').checked = state.enriched_only;
+      updateFilterButtonStyles();
+    }
+
+    function updateUrl() {
+      const params = new URLSearchParams();
+      if (state.q) params.set('q', state.q);
+      if (state.type !== 'all') params.set('type', state.type);
+      if (state.level !== 'all') params.set('level', state.level);
+      if (state.duration_bracket !== 'all') params.set('duration', state.duration_bracket);
+      if (state.sort !== 'relevance') params.set('sort', state.sort);
+      if (state.page > 1) params.set('page', state.page);
+      if (state.enriched_only) params.set('enriched', 'true');
+
+      const newUrl = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
+      window.history.replaceState({}, '', newUrl);
+    }
+
+    async function fetchFilters() {
+      try {
+        const res = await fetch('/api/filters');
+        const data = await res.json();
+        
+        // Update type counts
+        if (data.types) {
+          document.getElementById('count-type-lab').textContent = data.types.lab || 0;
+          document.getElementById('count-type-course').textContent = data.types.course || 0;
+          document.getElementById('count-type-path').textContent = data.types.path || 0;
+        }
+        // Update level counts
+        if (data.levels) {
+          document.getElementById('count-level-intro').textContent = data.levels.introductory || 0;
+          document.getElementById('count-level-inter').textContent = data.levels.intermediate || 0;
+          document.getElementById('count-level-adv').textContent = data.levels.advanced || 0;
+          document.getElementById('count-level-unspec').textContent = data.levels.unspecified || 0;
+        }
+        // Update duration bracket counts
+        if (data.duration_brackets) {
+          document.getElementById('count-dur-30m').textContent = data.duration_brackets['<30m'] || 0;
+          document.getElementById('count-dur-1h').textContent = data.duration_brackets['<1h'] || 0;
+          document.getElementById('count-dur-1-3h').textContent = data.duration_brackets['1-3h'] || 0;
+          document.getElementById('count-dur-3h').textContent = data.duration_brackets['>3h'] || 0;
+        }
+      } catch (err) {
+        console.error('Failed to fetch filters:', err);
+      }
+    }
+
+    async function fetchCredentials() {
+      const spinner = document.getElementById('loading-spinner');
+      spinner.classList.remove('hidden');
+
+      try {
+        const params = new URLSearchParams();
+        if (state.q) params.set('q', state.q);
+        if (state.type !== 'all') params.set('type', state.type);
+        if (state.level !== 'all') params.set('level', state.level);
+        if (state.duration_bracket !== 'all') params.set('duration_bracket', state.duration_bracket);
+        if (state.sort) params.set('sort', state.sort);
+        params.set('page', state.page);
+        params.set('page_size', state.page_size);
+        if (state.enriched_only) params.set('enriched_only', 'true');
+
+        const res = await fetch('/api/credentials?' + params.toString());
+        const data = await res.json();
+
+        state.total = data.total;
+        state.total_pages = data.total_pages;
+
+        renderResults(data.items);
+        renderPagination();
+        renderActivePills();
+        updateUrl();
+      } catch (err) {
+        console.error('Failed to fetch credentials:', err);
+      } finally {
+        spinner.classList.add('hidden');
+      }
+    }
+
+    function renderResults(items) {
+      const grid = document.getElementById('credentials-grid');
+      const emptyState = document.getElementById('empty-state');
+      const countText = document.getElementById('results-count-text');
+
+      countText.textContent = `Showing ${items.length} of ${state.total.toLocaleString()} credentials`;
+
+      if (items.length === 0) {
+        grid.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      grid.innerHTML = items.map(item => createCardHtml(item)).join('');
+    }
+
+    function createCardHtml(item) {
+      // Type config
+      let typeBadge = '';
+      if (item.type === 'lab') {
+        typeBadge = `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+          <i class="fa-solid fa-flask text-[10px]"></i> Lab
+        </span>`;
+      } else if (item.type === 'course') {
+        typeBadge = `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200">
+          <i class="fa-solid fa-book-open text-[10px]"></i> Course
+        </span>`;
+      } else {
+        typeBadge = `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-purple-50 text-purple-700 border border-purple-200">
+          <i class="fa-solid fa-route text-[10px]"></i> Path
+        </span>`;
+      }
+
+      // Level badge
+      let levelBadge = '';
+      const lvl = (item.level || '').toLowerCase();
+      if (lvl === 'introductory') {
+        levelBadge = `<span class="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-700 bg-emerald-50/50 px-2 py-0.5 rounded">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Intro
+        </span>`;
+      } else if (lvl === 'intermediate') {
+        levelBadge = `<span class="inline-flex items-center gap-1 text-[11px] font-medium text-amber-700 bg-amber-50/50 px-2 py-0.5 rounded">
+          <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Interm
+        </span>`;
+      } else if (lvl === 'advanced') {
+        levelBadge = `<span class="inline-flex items-center gap-1 text-[11px] font-medium text-purple-700 bg-purple-50/50 px-2 py-0.5 rounded">
+          <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span> Adv
+        </span>`;
+      }
+
+      // Duration string
+      const durationStr = item.duration || (item.duration_minutes ? item.duration_minutes + ' min' : 'Flexible');
+
+      // AI Enriched content tags
+      let enrichedTags = '';
+      let borderHighlight = 'border-slate-200';
+      if (item.enrichment) {
+        borderHighlight = 'border-blue-300 ring-1 ring-blue-200/50';
+        const skills = (item.enrichment.skills || []).slice(0, 3);
+        enrichedTags = `
+          <div class="mt-3 pt-2.5 border-t border-slate-100 flex flex-wrap gap-1">
+            <span class="inline-flex items-center text-[10px] font-bold text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200/60">
+              <i class="fa-solid fa-sparkles text-[8px] mr-1"></i> AI Curated
+            </span>
+            ${skills.map(s => `<span class="text-[10px] font-medium bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded">${s}</span>`).join('')}
+          </div>
+        `;
+      }
+
+      return `
+        <div class="bg-white rounded-2xl border ${borderHighlight} p-5 shadow-xs hover:shadow-md transition-all flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-3">
+              <div class="flex items-center gap-1.5">
+                ${typeBadge}
+                ${levelBadge}
+              </div>
+              <span class="inline-flex items-center gap-1 text-slate-400 text-xs font-medium">
+                <i class="fa-regular fa-clock text-[11px]"></i> ${durationStr}
+              </span>
+            </div>
+
+            <h3 class="font-display font-bold text-slate-900 text-base group-hover:text-blue-600 transition leading-snug">
+              ${escapeHtml(item.title)}
+            </h3>
+
+            <p class="mt-2 text-xs text-slate-500 line-clamp-3 leading-relaxed">
+              ${escapeHtml(item.description || 'No description provided for this catalog credential.')}
+            </p>
+
+            ${enrichedTags}
+          </div>
+
+          <div class="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+            <button onclick="openModal('${escapeHtml(item.id)}')" class="text-xs font-semibold text-slate-600 hover:text-slate-900 px-2.5 py-1.5 rounded-lg hover:bg-slate-100 transition">
+              Quick View
+            </button>
+            <a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-xs font-bold text-blue-600 hover:text-blue-700 px-3 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100/70 transition">
+              Open Course <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+            </a>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderActivePills() {
+      const container = document.getElementById('active-pills');
+      const pills = [];
+
+      if (state.q) {
+        pills.push(`<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-blue-100 text-blue-800 font-medium">
+          Query: "${escapeHtml(state.q)}" <button onclick="clearSearch()" class="hover:text-blue-900">&times;</button>
+        </span>`);
+      }
+      if (state.type !== 'all') {
+        pills.push(`<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-200 text-slate-800 font-medium capitalize">
+          Type: ${state.type} <button onclick="setTypeFilter('all')" class="hover:text-slate-950">&times;</button>
+        </span>`);
+      }
+      if (state.level !== 'all') {
+        pills.push(`<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-200 text-slate-800 font-medium capitalize">
+          Level: ${state.level} <button onclick="setLevelFilter('all')" class="hover:text-slate-950">&times;</button>
+        </span>`);
+      }
+      if (state.duration_bracket !== 'all') {
+        pills.push(`<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-200 text-slate-800 font-medium">
+          Duration: ${state.duration_bracket} <button onclick="setDurationFilter('all')" class="hover:text-slate-950">&times;</button>
+        </span>`);
+      }
+      if (state.enriched_only) {
+        pills.push(`<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 font-medium">
+          ✨ AI Enriched Only <button onclick="toggleEnrichedOnly(false)" class="hover:text-amber-950">&times;</button>
+        </span>`);
+      }
+
+      container.innerHTML = pills.join('');
+    }
+
+    function renderPagination() {
+      const container = document.getElementById('pagination-buttons');
+      const info = document.getElementById('pagination-info');
+
+      info.textContent = `Page ${state.page} of ${state.total_pages || 1} (${state.total.toLocaleString()} total)`;
+
+      if (state.total_pages <= 1) {
+        container.innerHTML = '';
+        return;
+      }
+
+      let buttons = '';
+      
+      // Prev button
+      buttons += `<button onclick="goToPage(${state.page - 1})" ${state.page <= 1 ? 'disabled class="opacity-40 cursor-not-allowed"' : ''} class="px-2.5 py-1 text-xs font-semibold rounded-lg border border-slate-200 hover:bg-slate-50 transition">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>`;
+
+      // Page numbers (smart window)
+      const maxButtons = 5;
+      let start = Math.max(1, state.page - 2);
+      let end = Math.min(state.total_pages, start + maxButtons - 1);
+      if (end - start < maxButtons - 1) {
+        start = Math.max(1, end - maxButtons + 1);
+      }
+
+      for (let p = start; p <= end; p++) {
+        const active = p === state.page ? 'bg-blue-600 text-white font-bold border-blue-600 shadow-xs' : 'text-slate-700 hover:bg-slate-50 border-slate-200';
+        buttons += `<button onclick="goToPage(${p})" class="w-8 h-8 text-xs font-semibold rounded-lg border ${active} transition">${p}</button>`;
+      }
+
+      // Next button
+      buttons += `<button onclick="goToPage(${state.page + 1})" ${state.page >= state.total_pages ? 'disabled class="opacity-40 cursor-not-allowed"' : ''} class="px-2.5 py-1 text-xs font-semibold rounded-lg border border-slate-200 hover:bg-slate-50 transition">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>`;
+
+      container.innerHTML = buttons;
+    }
+
+    // Filter Handlers
+    function setTypeFilter(type) {
+      state.type = type;
+      state.page = 1;
+      updateFilterButtonStyles();
+      fetchCredentials();
+    }
+
+    function setLevelFilter(level) {
+      state.level = level;
+      state.page = 1;
+      updateFilterButtonStyles();
+      fetchCredentials();
+    }
+
+    function setDurationFilter(dur) {
+      state.duration_bracket = dur;
+      state.page = 1;
+      updateFilterButtonStyles();
+      fetchCredentials();
+    }
+
+    function toggleEnrichedOnly(enabled) {
+      state.enriched_only = enabled;
+      document.getElementById('enriched-checkbox').checked = enabled;
+      state.page = 1;
+      fetchCredentials();
+    }
+
+    function handleSortChange(sortVal) {
+      state.sort = sortVal;
+      state.page = 1;
+      fetchCredentials();
+    }
+
+    function goToPage(p) {
+      if (p < 1 || p > state.total_pages) return;
+      state.page = p;
+      fetchCredentials();
+      window.scrollTo({ top: 400, behavior: 'smooth' });
+    }
+
+    function handleSearchInput(e) {
+      const val = e.target.value;
+      document.getElementById('search-clear-btn').classList.toggle('hidden', !val);
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        state.q = val;
+        state.page = 1;
+        fetchCredentials();
+      }, 300);
+    }
+
+    function handleSearchKeydown(e) {
+      if (e.key === 'Enter') {
+        clearTimeout(debounceTimer);
+        state.q = e.target.value;
+        state.page = 1;
+        fetchCredentials();
+      }
+    }
+
+    function setQuery(term) {
+      document.getElementById('search-input').value = term;
+      document.getElementById('search-clear-btn').classList.remove('hidden');
+      state.q = term;
+      state.page = 1;
+      fetchCredentials();
+      window.scrollTo({ top: 350, behavior: 'smooth' });
+    }
+
+    function clearSearch() {
+      document.getElementById('search-input').value = '';
+      document.getElementById('search-clear-btn').classList.add('hidden');
+      state.q = '';
+      state.page = 1;
+      fetchCredentials();
+    }
+
+    function resetAllFilters() {
+      state.q = '';
+      state.type = 'all';
+      state.level = 'all';
+      state.duration_bracket = 'all';
+      state.enriched_only = false;
+      state.sort = 'relevance';
+      state.page = 1;
+
+      document.getElementById('search-input').value = '';
+      document.getElementById('search-clear-btn').classList.add('hidden');
+      document.getElementById('sort-select').value = 'relevance';
+      document.getElementById('enriched-checkbox').checked = false;
+
+      updateFilterButtonStyles();
+      fetchCredentials();
+    }
+
+    function updateFilterButtonStyles() {
+      // Type buttons
+      document.querySelectorAll('.type-btn').forEach(btn => {
+        const isActive = btn.dataset.type === state.type;
+        btn.classList.toggle('bg-blue-50', isActive);
+        btn.classList.toggle('text-blue-700', isActive);
+        btn.classList.toggle('border-blue-200', isActive);
+      });
+
+      // Level buttons
+      document.querySelectorAll('.level-btn').forEach(btn => {
+        const isActive = btn.dataset.level === state.level;
+        btn.classList.toggle('bg-blue-50', isActive);
+        btn.classList.toggle('text-blue-700', isActive);
+        btn.classList.toggle('border-blue-200', isActive);
+      });
+
+      // Duration buttons
+      document.querySelectorAll('.dur-btn').forEach(btn => {
+        const isActive = btn.dataset.duration === state.duration_bracket;
+        btn.classList.toggle('bg-blue-50', isActive);
+        btn.classList.toggle('text-blue-700', isActive);
+        btn.classList.toggle('border-blue-200', isActive);
+      });
+    }
+
+    // Modal Handlers
+    async function openModal(id) {
+      const modal = document.getElementById('detail-modal');
+      modal.classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+
+      try {
+        const res = await fetch(`/api/credentials/${id}`);
+        const item = await res.json();
+
+        document.getElementById('modal-title').textContent = item.title;
+        document.getElementById('modal-description').textContent = item.description || 'No description available.';
+        document.getElementById('modal-duration').textContent = item.duration || (item.duration_minutes ? item.duration_minutes + ' min' : 'Flexible');
+        document.getElementById('modal-level').textContent = item.level || 'Unspecified';
+        document.getElementById('modal-launch-btn').href = item.url;
+
+        // Modal Badges
+        const badges = [];
+        if (item.type) {
+          badges.push(`<span class="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase bg-slate-100 text-slate-700">${item.type}</span>`);
+        }
+        if (item.level) {
+          badges.push(`<span class="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase bg-blue-50 text-blue-700">${item.level}</span>`);
+        }
+        document.getElementById('modal-badges').innerHTML = badges.join('');
+
+        // Enrichment
+        const enrichSection = document.getElementById('modal-enrichment-section');
+        if (item.enrichment) {
+          enrichSection.classList.remove('hidden');
+          document.getElementById('modal-ai-summary').textContent = item.enrichment.summary || '';
+          
+          const skillsHtml = (item.enrichment.skills || []).map(s => 
+            `<span class="px-2 py-0.5 bg-blue-100/70 text-blue-800 text-[11px] font-semibold rounded-md">${s}</span>`
+          ).join('');
+          document.getElementById('modal-skills').innerHTML = skillsHtml || '<span class="text-xs text-slate-400">N/A</span>';
+
+          const careersHtml = (item.enrichment.career_paths || []).map(c => 
+            `<span class="px-2 py-0.5 bg-emerald-100/70 text-emerald-800 text-[11px] font-semibold rounded-md">${c}</span>`
+          ).join('');
+          document.getElementById('modal-careers').innerHTML = careersHtml || '<span class="text-xs text-slate-400">N/A</span>';
+        } else {
+          enrichSection.classList.add('hidden');
+        }
+
+      } catch (err) {
+        console.error('Failed to load credential detail:', err);
+      }
+    }
+
+    function closeModal() {
+      document.getElementById('detail-modal').classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+    }
+
+    function handleModalBackdropClick(e) {
+      if (e.target.id === 'detail-modal') {
+        closeModal();
+      }
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+  </script>
+</body>
+</html>

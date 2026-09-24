@@ -1,0 +1,39 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# IDE & OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Database backups & copies
+credentials - Copy.db
+credentials.db.bak
+*.bak
+
+# Scratch HTML and inspection scripts
+scratch_page*.html
+inspect_*.py
+check_fts.py
+fetch_catalog_sample.py
+fetch_and_extract_2.py
+learningFast.py
+main2.py
+scraper.py
+verify_page1.py
+test_api.py
+test_backend_query.py
+test_duration_parser.py
+test_extracted.json
+test_extracted_2.json
+samples_10.json
