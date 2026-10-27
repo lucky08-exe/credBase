@@ -2,10 +2,12 @@ import sqlite3
 import shutil
 import os
 import re
+import json
 from urllib.parse import urlparse, urlunparse
 
 DB_PATH = "credentials.db"
 BACKUP_PATH = "credentials.db.bak"
+CATALOG_PATH = "catalog.json"
 
 def prepare_database():
     """Ensures a clean backup exists and restores from backup if rerun to capture raw state."""
@@ -21,12 +23,37 @@ def prepare_database():
         raise FileNotFoundError(f"Database file '{DB_PATH}' does not exist.")
 
 def canonicalize_url(url: str) -> str:
-    """Strips transient query parameters (catalog_rank, parent) while preserving path."""
+    """Canonicalizes non-lab URLs while retaining required lab catalog context."""
     if not url:
         return ""
     parsed = urlparse(url)
+
+    # Google Skills lab detail pages (/focuses/) require the catalog context in
+    # their query string. Removing it makes otherwise valid lab links fail.
+    if parsed.path.startswith("/focuses/"):
+        return url
+
     clean_parsed = parsed._replace(query="", fragment="")
     return urlunparse(clean_parsed)
+
+def load_focus_urls() -> dict[str, str]:
+    """Load the original, working Google Skills URLs for all lab records."""
+    if not os.path.exists(CATALOG_PATH):
+        print(f"[Warning] {CATALOG_PATH} not found; focus URLs cannot be restored from source.")
+        return {}
+
+    with open(CATALOG_PATH, "r", encoding="utf-8") as f:
+        records = json.load(f)
+
+    focus_urls = {}
+    for record in records:
+        url = record.get("url") or ""
+        parsed = urlparse(url)
+        if parsed.path.startswith("/focuses/") and parsed.query:
+            record_id = parsed.path.strip("/").replace("/", "_")
+            focus_urls[record_id] = url
+
+    return focus_urls
 
 def parse_duration_to_minutes(duration_str: str) -> int | None:
     """Parses duration string into total minutes. Returns None if missing/empty."""
@@ -51,6 +78,7 @@ def parse_duration_to_minutes(duration_str: str) -> int | None:
 def clean_database():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
+    focus_urls = load_focus_urls()
 
     # 1. Fetch raw records to capture BEFORE state for sample reports
     cursor.execute("SELECT id, title, url, level, duration FROM credentials")
@@ -78,7 +106,9 @@ def clean_database():
     updated_rows = []
     for id_val, title, url, level, duration in raw_records:
         clean_title = title.strip() if title else ""
-        clean_url = canonicalize_url(url)
+        # Restore the source URL for labs so existing databases that were
+        # cleaned with the old behavior recover their required query params.
+        clean_url = focus_urls.get(id_val, canonicalize_url(url))
         clean_level = level.strip() if level and level.strip() else None
         duration_mins = parse_duration_to_minutes(duration)
 
@@ -96,6 +126,7 @@ def clean_database():
     cursor.executemany(update_sql, updated_rows)
     conn.commit()
     print(f"[Cleaning] Applied Phase 3B transformations to {len(updated_rows)} records in '{DB_PATH}'.")
+    print(f"[Cleaning] Restored catalog-context URLs for {len(focus_urls)} focus records.")
 
     conn.close()
     return samples_before
