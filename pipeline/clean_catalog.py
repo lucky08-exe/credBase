@@ -5,9 +5,10 @@ import re
 import json
 from urllib.parse import urlparse, urlunparse
 
-DB_PATH = "credentials.db"
-BACKUP_PATH = "credentials.db.bak"
-CATALOG_PATH = "catalog.json"
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DB_PATH = os.path.join(ROOT_DIR, "credentials.db")
+BACKUP_PATH = os.path.join(ROOT_DIR, "credentials.db.bak")
+CATALOG_PATH = os.path.join(ROOT_DIR, "data", "catalog.json")
 
 def prepare_database():
     """Ensures a clean backup exists and restores from backup if rerun to capture raw state."""

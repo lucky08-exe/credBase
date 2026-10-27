@@ -1,5 +1,8 @@
 import json
-import sqlite3
+import os
+
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Define enriched metadata for the 10 Phase 4A sample records
 enrichments = {
@@ -48,14 +51,14 @@ enrichments = {
     "focuses_23118": {
         "summary": "Hands-on lab writing complex SQL queries and joins on BigQuery tables to derive statistical insights from soccer match events.",
         "skills": ["SQL Joins", "BigQuery", "Data Aggregation", "Sports Analytics", "SAFE_DIVIDE", "UNNEST"],
-        "domains": ["Data Analytics", "Sports Data Science"],
-        "career_paths": ["Data Analyst", "Sports Analytics Specialist"]
+        "domains": ["Data Analytics", "SQL Data Engineering"],
+        "career_paths": ["Data Analyst", "Sports Analytics Specialist", "SQL Developer"]
     },
     "focuses_49746": {
-        "summary": "Advanced hands-on lab running cross-cloud BigQuery SQL analytics directly over data stored in AWS S3 buckets.",
-        "skills": ["BigQuery Omni", "Multi-Cloud Analytics", "AWS S3 Integration", "Cross-Cloud SQL", "BigQuery"],
-        "domains": ["Multi-Cloud Data Analytics", "Cloud Data Warehousing"],
-        "career_paths": ["Data Engineer", "Multi-Cloud Architect", "Senior Data Analyst"]
+        "summary": "Advanced lab configuring BigQuery Omni to query data residing in AWS S3 without data egress or cross-cloud migration.",
+        "skills": ["BigQuery Omni", "Multi-Cloud Analytics", "AWS S3 Integration", "Cross-Cloud Querying", "Cloud IAM"],
+        "domains": ["Multi-Cloud Architecture", "Data Engineering"],
+        "career_paths": ["Cloud Data Architect", "Multi-Cloud Engineer", "Principal Data Engineer"]
     },
     "paths_3135": {
         "summary": "Learning path covering foundational research topics, model architectures, and core principles from Google DeepMind.",
@@ -65,7 +68,8 @@ enrichments = {
     }
 }
 
-with open("samples_10.json", "r", encoding="utf-8") as f:
+samples_file = os.path.join(CURRENT_DIR, "samples_10.json")
+with open(samples_file, "r", encoding="utf-8") as f:
     samples = json.load(f)
 
 enriched_output = []
@@ -90,7 +94,8 @@ for item in samples:
     }
     enriched_output.append(enriched_item)
 
-with open("enriched_10.json", "w", encoding="utf-8") as f:
+output_file = os.path.join(CURRENT_DIR, "enriched_10.json")
+with open(output_file, "w", encoding="utf-8") as f:
     json.dump(enriched_output, f, indent=2, ensure_ascii=False)
 
-print(f"Successfully generated Phase 4A enriched dataset for 10 records in 'enriched_10.json'.")
+print(f"Successfully generated Phase 4A enriched dataset for 10 records in '{output_file}'.")

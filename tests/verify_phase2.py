@@ -3,8 +3,9 @@ import sqlite3
 import subprocess
 import sys
 
-DB_PATH = "credentials.db"
-IMPORT_SCRIPT = "import_catalog.py"
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DB_PATH = os.path.join(ROOT_DIR, "credentials.db")
+IMPORT_SCRIPT = os.path.join(ROOT_DIR, "pipeline", "import_catalog.py")
 
 def run_checks():
     print("==========================================")

@@ -1,7 +1,9 @@
 import sqlite3
 import json
 
-conn = sqlite3.connect("credentials.db")
+import os
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+conn = sqlite3.connect(os.path.join(ROOT_DIR, "credentials.db"))
 cursor = conn.cursor()
 
 # Select 10 diverse sample records across types (course, lab, path) and topics
@@ -42,5 +44,5 @@ print(f"Selected {len(samples)} diverse records for Phase 4A testing:")
 for idx, s in enumerate(samples, 1):
     print(f"{idx}. [{s['id']}] {s['title']} ({s['type']} | {s['level'] or 'unspecified'})")
 
-with open("samples_10.json", "w", encoding="utf-8") as f:
+with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "samples_10.json"), "w", encoding="utf-8") as f:
     json.dump(samples, f, indent=2, ensure_ascii=False)

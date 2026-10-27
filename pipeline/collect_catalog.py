@@ -77,7 +77,7 @@ def fetch_catalog() -> list[dict]:
 
 def main():
     catalog_items = fetch_catalog()
-    output_filename = "catalog.json"
+    output_filename = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "catalog.json")
     
     with open(output_filename, "w", encoding="utf-8") as f:
         json.dump(catalog_items, f, indent=2, ensure_ascii=False)
