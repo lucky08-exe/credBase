@@ -37,3 +37,11 @@ test_duration_parser.py
 test_extracted.json
 test_extracted_2.json
 samples_10.json
+
+# Node & Next.js
+node_modules/
+.next/
+ui/node_modules/
+ui/.next/
+ui/out/
+ui/.pnpm-store/

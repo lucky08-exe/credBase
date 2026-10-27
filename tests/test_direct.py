@@ -6,9 +6,14 @@ ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if ROOT_DIR not in sys.path:
     sys.path.insert(0, ROOT_DIR)
 
-from app import health_check, get_stats, get_filters, list_credentials, get_credential
+from app import health_check, get_stats, get_filters, list_credentials, get_credential, serve_index, serve_catalogue
 
 def test_direct():
+    # 0. Frontend routing tests
+    idx = serve_index()
+    assert os.path.exists(idx.path)
+    cat = serve_catalogue()
+    assert os.path.exists(cat.path)
     # 1. Health check
     h = health_check()
     print("1. Health check:", h)

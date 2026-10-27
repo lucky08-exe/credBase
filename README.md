@@ -1,4 +1,4 @@
-# Google Skills Finder
+# ascendr.
 
 [![Live App](https://img.shields.io/badge/Live_App-credbase.onrender.com-1a73e8?style=flat-square&logo=google-cloud&logoColor=white)](https://credbase.onrender.com)
 [![Python](https://img.shields.io/badge/Python-3.13-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
@@ -16,7 +16,7 @@ A fast, searchable discovery platform and REST API indexing **1,393 official Goo
 
 Google Cloud's official skills ecosystem contains hundreds of hands-on labs, courses, and learning paths scattered across different categories and difficulty levels. Finding specific credentials tailored to a learner's skill level, duration constraints, or career goals can be cumbersome.
 
-**Google Skills Finder (credBase)** provides a unified catalog interface and high-performance search engine built specifically for Google Cloud training content. Powered by SQLite Full-Text Search (FTS5) with BM25 ranking, it delivers instantaneous search, multi-faceted filtering, and direct links into Google Cloud training environments.
+**ascendr. (credBase)** provides a unified catalog interface and high-performance search engine built specifically for Google Cloud training content. Powered by SQLite Full-Text Search (FTS5) with BM25 ranking, it delivers instantaneous search, multi-faceted filtering, and direct links into Google Cloud training environments.
 
 ---
 
@@ -41,15 +41,19 @@ Google Cloud's official skills ecosystem contains hundreds of hands-on labs, cou
 credBase/
 ├── app.py                     # FastAPI backend (REST API & static file serving)
 ├── credentials.db             # SQLite database (1,393 records + FTS5 index)
-├── static/
-│   └── index.html             # Single-page frontend (Tailwind CSS, Vanilla JS)
+├── static/                    # Built production frontend distribution (Next.js static export)
+├── ui/                        # Modern Next.js 16 + React 19 + Tailwind CSS frontend
+│   ├── app/                   # App router pages (Home, Catalogue)
+│   ├── components/            # UI components (Home sections, Buttons, Icons)
+│   ├── lib/                   # Utility helpers
+│   └── scripts/               # Static sync build scripts
 ├── pipeline/                  # Data engineering & cleaning pipeline
 │   ├── collect_catalog.py     # Scrapes Google Skills catalog API
 │   ├── import_catalog.py      # Ingests JSON catalog into SQLite
 │   ├── clean_catalog.py       # Cleans URLs, normalizes durations and types
 │   └── audit_data.py          # Data quality & schema auditor
 ├── tests/                     # Verification and test suites
-│   ├── test_direct.py         # End-to-end API and search test suite
+│   ├── test_direct.py         # End-to-end API, frontend serving, and search test suite
 │   └── verify_phase2.py       # Database schema and integrity checks
 ├── v2_enrichment/             # V2 enrichment prototypes & sample datasets
 │   ├── enriched_10.json       # 10 reference enriched course records
@@ -68,11 +72,37 @@ credBase/
 
 | Component | Technology | Rationale |
 | :--- | :--- | :--- |
+| **Frontend UI** | [Next.js 16](https://nextjs.org/) + [React 19](https://react.dev/) + [Tailwind CSS v4](https://tailwindcss.com/) | Modern editorial design, full-featured catalog explorer, instant search, responsive filters, and static export. |
 | **Backend Framework** | [FastAPI](https://fastapi.tiangolo.com/) | High-throughput asynchronous REST API with automatic OpenAPI documentation. |
 | **Search & Database** | [SQLite FTS5](https://www.sqlite.org/fts5.html) | Zero-maintenance embedded database with native BM25 full-text indexing. |
 | **Serverless Adapter** | [Mangum](https://mangum.io/) | ASGI adapter enabling dual deployment across standard containers (Render) and serverless environments (Vercel). |
-| **Frontend** | Vanilla JS + [Tailwind CSS](https://tailwindcss.com/) | Ultra-fast load times, zero client build pipeline, and clean component styling. |
 | **Production Host** | [Render](https://render.com/) | Persistent container deployment running Uvicorn with automated GitHub deploys. |
+
+---
+
+## 💻 Development & Running Locally
+
+### 1. Run the FastAPI Backend
+```bash
+python app.py
+# Server starts at http://127.0.0.1:8000
+```
+This serves both the REST API at `/api/...` and the production static UI build at `/` and `/catalogue`.
+
+### 2. Run the Next.js Frontend (with Hot Reloading)
+```bash
+cd ui
+pnpm install
+pnpm dev
+# Frontend runs at http://localhost:3000 (proxies /api to localhost:8000)
+```
+
+### 3. Build & Sync Frontend to Backend
+```bash
+cd ui
+pnpm build
+# Compiles Next.js static export and synchronizes to static/
+```
 
 ---
 

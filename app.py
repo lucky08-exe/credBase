@@ -9,8 +9,8 @@ from fastapi.responses import FileResponse
 DB_PATH = os.path.join(os.path.dirname(__file__), "credentials.db")
 
 app = FastAPI(
-    title="Google Skills Finder API",
-    description="Search, filter, and discover Google Cloud credentials, labs, and courses.",
+    title="ascendr. API",
+    description="Search, filter, and discover Google Cloud credentials, labs, and courses with ascendr.",
     version="1.0.0"
 )
 
@@ -260,21 +260,52 @@ def get_credential(credential_id: str):
     item["paid"] = False
     return item
 
-# Mount static folder (guarded — may not exist in serverless environments)
+# Mount static folder and Next.js assets
 static_dir = os.path.join(os.path.dirname(__file__), "static")
+next_dir = os.path.join(static_dir, "_next")
+
 try:
+    if os.path.isdir(next_dir):
+        app.mount("/_next", StaticFiles(directory=next_dir), name="next_assets")
     if os.path.isdir(static_dir):
-        from fastapi.staticfiles import StaticFiles
         app.mount("/static", StaticFiles(directory=static_dir), name="static")
 except Exception as _e:
-    print(f"Warning: could not mount /static — {_e}")
+    print(f"Warning: could not mount static directories — {_e}")
 
 @app.get("/")
 def serve_index():
     index_file = os.path.join(static_dir, "index.html")
     if os.path.exists(index_file):
         return FileResponse(index_file)
-    return {"message": "Google Skills Finder API is active. Static frontend file not yet created."}
+    return {"message": "ascendr. API is active. Static frontend file not yet created."}
+
+@app.get("/catalogue")
+def serve_catalogue():
+    cat_file = os.path.join(static_dir, "catalogue.html")
+    if os.path.exists(cat_file):
+        return FileResponse(cat_file)
+    cat_index = os.path.join(static_dir, "catalogue", "index.html")
+    if os.path.exists(cat_index):
+        return FileResponse(cat_index)
+    return serve_index()
+
+@app.get("/{filename:path}")
+def serve_static_or_spa(filename: str):
+    if filename.startswith("api"):
+        raise HTTPException(status_code=404, detail="API endpoint not found")
+    file_path = os.path.join(static_dir, filename)
+    if os.path.isfile(file_path):
+        return FileResponse(file_path)
+    html_candidate = os.path.join(static_dir, f"{filename}.html")
+    if os.path.isfile(html_candidate):
+        return FileResponse(html_candidate)
+    index_candidate = os.path.join(static_dir, filename, "index.html")
+    if os.path.isfile(index_candidate):
+        return FileResponse(index_candidate)
+    index_file = os.path.join(static_dir, "index.html")
+    if os.path.exists(index_file):
+        return FileResponse(index_file)
+    raise HTTPException(status_code=404, detail="Not Found")
 
 if __name__ == "__main__":
     import uvicorn
