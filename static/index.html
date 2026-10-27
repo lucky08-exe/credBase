@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Google Skills Finder — Discover 1,390+ Cloud Labs & Courses</title>
+  <title>Google Skills Finder — Discover 1,393 Cloud Labs & Courses</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -71,13 +71,13 @@
       <div class="flex items-center space-x-3">
         <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
           <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          100% Free Access
+          Open Catalog
         </span>
         <div class="hidden sm:flex items-center gap-2 px-3 py-1 rounded-lg text-xs font-medium text-slate-600 bg-slate-100 border border-slate-200">
           <i class="fa-solid fa-database text-slate-400"></i>
           <span id="nav-total-count">1,393</span> Credentials
         </div>
-        <a href="https://github.com" target="_blank" class="p-2 text-slate-500 hover:text-slate-900 rounded-lg hover:bg-slate-100 transition" title="Project on GitHub">
+        <a href="https://github.com/lucky08-exe/credBase" target="_blank" rel="noopener noreferrer" class="p-2 text-slate-500 hover:text-slate-900 rounded-lg hover:bg-slate-100 transition" title="View project source on GitHub" aria-label="View project source on GitHub">
           <i class="fa-brands fa-github text-lg"></i>
         </a>
       </div>
@@ -95,7 +95,7 @@
         Discover <span class="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Google Cloud Credentials</span>
       </h1>
       <p class="mt-3 text-slate-600 text-sm sm:text-base max-w-2xl mx-auto">
-        Search and filter through 1,393 official Google Cloud labs, skill badge courses, and learning paths. Zero friction, completely free.
+        Search and filter through 1,393 official Google Cloud labs, skill courses, and learning paths.
       </p>
 
       <!-- SEARCH BAR -->
@@ -117,6 +117,7 @@
             onclick="clearSearch()" 
             class="hidden absolute right-12 text-slate-400 hover:text-slate-600 p-1 mr-1"
             title="Clear search"
+            aria-label="Clear search"
           >
             <i class="fa-solid fa-xmark"></i>
           </button>
@@ -136,8 +137,7 @@
         <button onclick="setQuery('Generative AI')" class="px-2.5 py-1 rounded-full bg-white hover:bg-blue-50 hover:text-blue-600 border border-slate-200 transition">🤖 Generative AI</button>
         <button onclick="setQuery('Terraform')" class="px-2.5 py-1 rounded-full bg-white hover:bg-blue-50 hover:text-blue-600 border border-slate-200 transition">🏗️ Terraform</button>
         <button onclick="setQuery('Security')" class="px-2.5 py-1 rounded-full bg-white hover:bg-blue-50 hover:text-blue-600 border border-slate-200 transition">🛡️ Security</button>
-        <button onclick="setDurationFilter('<1h')" class="px-2.5 py-1 rounded-full bg-white hover:bg-emerald-50 hover:text-emerald-700 border border-slate-200 transition">⚡ &lt; 1 Hour</button>
-        <button onclick="toggleEnrichedOnly(true)" class="px-2.5 py-1 rounded-full bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 transition font-medium">✨ AI Enriched</button>
+        <button onclick="setDurationFilter('<30m')" class="px-2.5 py-1 rounded-full bg-white hover:bg-emerald-50 hover:text-emerald-700 border border-slate-200 transition">⚡ &le; 30 min</button>
       </div>
     </div>
   </section>
@@ -176,7 +176,7 @@
               <span class="flex items-center gap-2"><i class="fa-solid fa-book-open text-blue-500"></i> Skill Course</span>
               <span class="text-slate-400 text-[11px]" id="count-type-course">489</span>
             </button>
-            <button onclick="setTypeFilter('path')" class="type-btn w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-slate-700 hover:bg-slate-50 transition border border-transparent" data-type="path">
+            <button onclick="setTypeFilter('learning_path')" class="type-btn w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-slate-700 hover:bg-slate-50 transition border border-transparent" data-type="learning_path">
               <span class="flex items-center gap-2"><i class="fa-solid fa-route text-purple-500"></i> Learning Path</span>
               <span class="text-slate-400 text-[11px]" id="count-type-path">25</span>
             </button>
@@ -226,7 +226,7 @@
               <span class="text-slate-400 text-[11px]" id="count-dur-30m">286</span>
             </button>
             <button onclick="setDurationFilter('<1h')" class="dur-btn w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-slate-700 hover:bg-slate-50 transition border border-transparent" data-duration="<1h">
-              <span>⏱️ Short (&le; 1 hour)</span>
+              <span>⏱️ Short (31 - 60 min)</span>
               <span class="text-slate-400 text-[11px]" id="count-dur-1h">828</span>
             </button>
             <button onclick="setDurationFilter('1-3h')" class="dur-btn w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-slate-700 hover:bg-slate-50 transition border border-transparent" data-duration="1-3h">
@@ -239,18 +239,6 @@
             </button>
           </div>
         </div>
-
-        <!-- FILTER: AI Enriched Only -->
-        <div class="pt-2 border-t border-slate-100">
-          <label class="flex items-center justify-between cursor-pointer group">
-            <span class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
-              <i class="fa-solid fa-sparkles text-amber-500"></i> AI Enriched Only
-            </span>
-            <input type="checkbox" id="enriched-checkbox" onchange="toggleEnrichedOnly(this.checked)" class="sr-only peer">
-            <div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600 relative"></div>
-          </label>
-          <p class="text-[11px] text-slate-400 mt-1">Show items with curated skill tags & career paths.</p>
-        </div>
       </aside>
 
       <!-- RIGHT RESULTS COLUMN -->
@@ -259,7 +247,7 @@
         <!-- CONTROLS & ACTIVE FILTERS BAR -->
         <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-wrap items-center justify-between gap-4">
           <div class="flex items-center gap-2">
-            <span class="font-display font-bold text-slate-900 text-sm" id="results-count-text">
+            <span class="font-display font-bold text-slate-900 text-sm" id="results-count-text" aria-live="polite">
               Showing 0 credentials
             </span>
             <div id="loading-spinner" class="hidden text-blue-600 animate-spin text-sm ml-2">
@@ -316,14 +304,14 @@
   </main>
 
   <!-- DETAIL MODAL -->
-  <div id="detail-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 hidden" onclick="handleModalBackdropClick(event)">
+  <div id="detail-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 hidden" onclick="handleModalBackdropClick(event)" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-200 p-6 sm:p-8 animate-in fade-in zoom-in-95 duration-150" onclick="event.stopPropagation()">
       <div class="flex items-start justify-between gap-4 border-b border-slate-100 pb-4">
         <div>
           <div class="flex flex-wrap items-center gap-2 mb-2" id="modal-badges"></div>
           <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900" id="modal-title"></h2>
         </div>
-        <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600 p-2 rounded-xl hover:bg-slate-100 transition">
+        <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600 p-2 rounded-xl hover:bg-slate-100 transition" aria-label="Close credential details">
           <i class="fa-solid fa-xmark text-lg"></i>
         </button>
       </div>
@@ -332,22 +320,6 @@
         <div>
           <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Description</h4>
           <p id="modal-description" class="leading-relaxed"></p>
-        </div>
-
-        <!-- AI Enrichment Section (if available) -->
-        <div id="modal-enrichment-section" class="hidden p-4 rounded-2xl bg-gradient-to-br from-blue-50/60 to-indigo-50/40 border border-blue-100 space-y-3">
-          <div class="flex items-center gap-1.5 text-xs font-bold text-blue-700">
-            <i class="fa-solid fa-sparkles"></i> AI Enriched Insights
-          </div>
-          <p id="modal-ai-summary" class="text-xs text-slate-700 italic"></p>
-          <div>
-            <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Target Skills</span>
-            <div id="modal-skills" class="flex flex-wrap gap-1"></div>
-          </div>
-          <div>
-            <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Career Paths</span>
-            <div id="modal-careers" class="flex flex-wrap gap-1"></div>
-          </div>
         </div>
 
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2 text-xs">
@@ -360,8 +332,8 @@
             <span class="font-semibold text-slate-800 capitalize" id="modal-level"></span>
           </div>
           <div class="p-3 rounded-xl bg-slate-50 border border-slate-100">
-            <span class="text-slate-400 block text-[10px] uppercase font-bold">Tuition / Cost</span>
-            <span class="font-semibold text-emerald-600">Free / Open</span>
+            <span class="text-slate-400 block text-[10px] uppercase font-bold">Catalog Source</span>
+            <span class="font-semibold text-slate-700">Google Skills</span>
           </div>
         </div>
       </div>
@@ -380,8 +352,8 @@
   <!-- FOOTER -->
   <footer class="bg-white border-t border-slate-200 py-6 mt-12 text-center text-xs text-slate-500">
     <div class="max-w-7xl mx-auto px-4">
-      <p class="font-medium text-slate-600">Google Skills Finder &bull; Version 1.0</p>
-      <p class="mt-1 text-slate-400">Powered by FastAPI, SQLite Full-Text Search (FTS5), and Google Skills catalog data.</p>
+      <p class="font-medium text-slate-600">Google Skills Finder &bull; Version 1.0.1</p>
+      <p class="mt-1 text-slate-400">Google Skills catalog snapshot updated September 24, 2026 &bull; 1,393 records &bull; FastAPI + SQLite FTS5.</p>
     </div>
   </footer>
 
@@ -393,7 +365,6 @@
       type: 'all',
       level: 'all',
       duration_bracket: 'all',
-      enriched_only: false,
       sort: 'relevance',
       page: 1,
       page_size: 24,
@@ -411,6 +382,10 @@
 
       // Keyboard shortcut: '/' to focus search
       window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !document.getElementById('detail-modal').classList.contains('hidden')) {
+          closeModal();
+          return;
+        }
         if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
           e.preventDefault();
           document.getElementById('search-input').focus();
@@ -422,17 +397,16 @@
       const params = new URLSearchParams(window.location.search);
       if (params.has('q')) state.q = params.get('q');
       if (params.has('type')) state.type = params.get('type');
+      if (state.type === 'path') state.type = 'learning_path';
       if (params.has('level')) state.level = params.get('level');
       if (params.has('duration')) state.duration_bracket = params.get('duration');
       if (params.has('sort')) state.sort = params.get('sort');
       if (params.has('page')) state.page = parseInt(params.get('page')) || 1;
-      if (params.has('enriched')) state.enriched_only = params.get('enriched') === 'true';
 
       // Update UI elements
       document.getElementById('search-input').value = state.q;
       if (state.q) document.getElementById('search-clear-btn').classList.remove('hidden');
       document.getElementById('sort-select').value = state.sort;
-      document.getElementById('enriched-checkbox').checked = state.enriched_only;
       updateFilterButtonStyles();
     }
 
@@ -444,7 +418,6 @@
       if (state.duration_bracket !== 'all') params.set('duration', state.duration_bracket);
       if (state.sort !== 'relevance') params.set('sort', state.sort);
       if (state.page > 1) params.set('page', state.page);
-      if (state.enriched_only) params.set('enriched', 'true');
 
       const newUrl = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
       window.history.replaceState({}, '', newUrl);
@@ -459,7 +432,10 @@
         if (data.types) {
           document.getElementById('count-type-lab').textContent = data.types.lab || 0;
           document.getElementById('count-type-course').textContent = data.types.course || 0;
-          document.getElementById('count-type-path').textContent = data.types.path || 0;
+          document.getElementById('count-type-path').textContent = data.types.learning_path || 0;
+          document.getElementById('count-type-all').textContent = data.total || 0;
+          document.getElementById('count-level-all').textContent = data.total || 0;
+          document.getElementById('nav-total-count').textContent = data.total || 0;
         }
         // Update level counts
         if (data.levels) {
@@ -493,7 +469,6 @@
         if (state.sort) params.set('sort', state.sort);
         params.set('page', state.page);
         params.set('page_size', state.page_size);
-        if (state.enriched_only) params.set('enriched_only', 'true');
 
         const res = await fetch('/api/credentials?' + params.toString());
         const data = await res.json();
@@ -566,24 +541,8 @@
       // Duration string
       const durationStr = item.duration || (item.duration_minutes ? item.duration_minutes + ' min' : 'Flexible');
 
-      // AI Enriched content tags
-      let enrichedTags = '';
-      let borderHighlight = 'border-slate-200';
-      if (item.enrichment) {
-        borderHighlight = 'border-blue-300 ring-1 ring-blue-200/50';
-        const skills = (item.enrichment.skills || []).slice(0, 3);
-        enrichedTags = `
-          <div class="mt-3 pt-2.5 border-t border-slate-100 flex flex-wrap gap-1">
-            <span class="inline-flex items-center text-[10px] font-bold text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200/60">
-              <i class="fa-solid fa-sparkles text-[8px] mr-1"></i> AI Curated
-            </span>
-            ${skills.map(s => `<span class="text-[10px] font-medium bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded">${s}</span>`).join('')}
-          </div>
-        `;
-      }
-
       return `
-        <div class="bg-white rounded-2xl border ${borderHighlight} p-5 shadow-xs hover:shadow-md transition-all flex flex-col justify-between group">
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs hover:shadow-md transition-all flex flex-col justify-between group">
           <div>
             <div class="flex items-center justify-between gap-2 mb-3">
               <div class="flex items-center gap-1.5">
@@ -602,8 +561,6 @@
             <p class="mt-2 text-xs text-slate-500 line-clamp-3 leading-relaxed">
               ${escapeHtml(item.description || 'No description provided for this catalog credential.')}
             </p>
-
-            ${enrichedTags}
           </div>
 
           <div class="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
@@ -640,11 +597,6 @@
       if (state.duration_bracket !== 'all') {
         pills.push(`<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-200 text-slate-800 font-medium">
           Duration: ${state.duration_bracket} <button onclick="setDurationFilter('all')" class="hover:text-slate-950">&times;</button>
-        </span>`);
-      }
-      if (state.enriched_only) {
-        pills.push(`<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 font-medium">
-          ✨ AI Enriched Only <button onclick="toggleEnrichedOnly(false)" class="hover:text-amber-950">&times;</button>
         </span>`);
       }
 
@@ -712,12 +664,7 @@
       fetchCredentials();
     }
 
-    function toggleEnrichedOnly(enabled) {
-      state.enriched_only = enabled;
-      document.getElementById('enriched-checkbox').checked = enabled;
-      state.page = 1;
-      fetchCredentials();
-    }
+    
 
     function handleSortChange(sortVal) {
       state.sort = sortVal;
@@ -774,14 +721,12 @@
       state.type = 'all';
       state.level = 'all';
       state.duration_bracket = 'all';
-      state.enriched_only = false;
       state.sort = 'relevance';
       state.page = 1;
 
       document.getElementById('search-input').value = '';
       document.getElementById('search-clear-btn').classList.add('hidden');
       document.getElementById('sort-select').value = 'relevance';
-      document.getElementById('enriched-checkbox').checked = false;
 
       updateFilterButtonStyles();
       fetchCredentials();
@@ -838,25 +783,6 @@
           badges.push(`<span class="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase bg-blue-50 text-blue-700">${item.level}</span>`);
         }
         document.getElementById('modal-badges').innerHTML = badges.join('');
-
-        // Enrichment
-        const enrichSection = document.getElementById('modal-enrichment-section');
-        if (item.enrichment) {
-          enrichSection.classList.remove('hidden');
-          document.getElementById('modal-ai-summary').textContent = item.enrichment.summary || '';
-          
-          const skillsHtml = (item.enrichment.skills || []).map(s => 
-            `<span class="px-2 py-0.5 bg-blue-100/70 text-blue-800 text-[11px] font-semibold rounded-md">${s}</span>`
-          ).join('');
-          document.getElementById('modal-skills').innerHTML = skillsHtml || '<span class="text-xs text-slate-400">N/A</span>';
-
-          const careersHtml = (item.enrichment.career_paths || []).map(c => 
-            `<span class="px-2 py-0.5 bg-emerald-100/70 text-emerald-800 text-[11px] font-semibold rounded-md">${c}</span>`
-          ).join('');
-          document.getElementById('modal-careers').innerHTML = careersHtml || '<span class="text-xs text-slate-400">N/A</span>';
-        } else {
-          enrichSection.classList.add('hidden');
-        }
 
       } catch (err) {
         console.error('Failed to load credential detail:', err);
