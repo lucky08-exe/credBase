@@ -289,6 +289,26 @@ def serve_catalogue():
         return FileResponse(cat_index)
     return serve_index()
 
+@app.get("/paths")
+def serve_paths():
+    p_file = os.path.join(static_dir, "paths.html")
+    if os.path.exists(p_file):
+        return FileResponse(p_file)
+    p_index = os.path.join(static_dir, "paths", "index.html")
+    if os.path.exists(p_index):
+        return FileResponse(p_index)
+    return serve_index()
+
+@app.get("/paths/{slug}")
+def serve_path_detail(slug: str):
+    p_file = os.path.join(static_dir, "paths", f"{slug}.html")
+    if os.path.exists(p_file):
+        return FileResponse(p_file)
+    p_index = os.path.join(static_dir, "paths", slug, "index.html")
+    if os.path.exists(p_index):
+        return FileResponse(p_index)
+    return serve_paths()
+
 @app.get("/{filename:path}")
 def serve_static_or_spa(filename: str):
     if filename.startswith("api"):

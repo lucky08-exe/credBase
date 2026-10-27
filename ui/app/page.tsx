@@ -1,5 +1,5 @@
-import { SkillsFinderHome } from '@/components/skills-finder-home'
+import { AscendrHome } from '@/components/skills-finder-home'
 
 export default function Page() {
-  return <SkillsFinderHome />
+  return <AscendrHome />
 }

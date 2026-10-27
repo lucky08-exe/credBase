@@ -305,9 +305,12 @@ function CatalogueContent() {
             <span className="rounded-full border border-[#20221f]/15 bg-white px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-[#20221f]">
               Catalogue
             </span>
-            <span className="hidden sm:inline-flex rounded-full border border-[#20221f]/10 bg-white/60 px-3 py-1 text-xs font-semibold text-[#20221f]/70">
-              {filterStats?.total ? `${filterStats.total.toLocaleString()} Credentials` : 'Catalogue'}
-            </span>
+            <Link
+              href="/paths"
+              className="hidden sm:inline-flex rounded-full border border-[#20221f]/10 bg-white/60 px-3.5 py-1.5 text-xs font-semibold text-[#20221f]/70 hover:text-[#ef6c4d] transition-colors"
+            >
+              Learning Paths <ArrowUpRight className="ml-1 inline" size={13} />
+            </Link>
           </div>
 
           <Link
@@ -873,9 +876,14 @@ function CatalogueContent() {
       {/* FOOTER */}
       <footer className="mx-auto max-w-7xl px-5 py-9 text-sm text-[#20221f]/50 lg:px-10 border-t border-[#20221f]/10 mt-12 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="font-bold text-[#20221f]">ascendr<span className="text-[#ef6c4d]">.</span> — Free Catalog Explorer</div>
-        <Link href="/" className="hover:text-[#ef6c4d] font-semibold transition-colors">
-          Back to home
-        </Link>
+        <div className="flex items-center gap-5">
+          <Link href="/paths" className="hover:text-[#ef6c4d] font-semibold transition-colors">
+            Learning paths
+          </Link>
+          <Link href="/" className="hover:text-[#ef6c4d] font-semibold transition-colors">
+            Back to home
+          </Link>
+        </div>
       </footer>
     </main>
   )

@@ -6,7 +6,7 @@ ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if ROOT_DIR not in sys.path:
     sys.path.insert(0, ROOT_DIR)
 
-from app import health_check, get_stats, get_filters, list_credentials, get_credential, serve_index, serve_catalogue
+from app import health_check, get_stats, get_filters, list_credentials, get_credential, serve_index, serve_catalogue, serve_paths, serve_path_detail
 
 def test_direct():
     # 0. Frontend routing tests
@@ -14,6 +14,10 @@ def test_direct():
     assert os.path.exists(idx.path)
     cat = serve_catalogue()
     assert os.path.exists(cat.path)
+    pts = serve_paths()
+    assert os.path.exists(pts.path)
+    p_detail = serve_path_detail("cloud-computing")
+    assert os.path.exists(p_detail.path)
     # 1. Health check
     h = health_check()
     print("1. Health check:", h)
