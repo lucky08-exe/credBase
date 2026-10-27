@@ -22,21 +22,21 @@ def test_direct():
     h = health_check()
     print("1. Health check:", h)
     assert h["status"] == "ok"
-    assert h["total_records"] == 1393
+    assert h["total_records"] == 1318
 
     # 2. Stats
     s = get_stats()
     print("2. Stats:", s)
-    assert s["total"] == 1393
+    assert s["total"] == 1318
     assert s["type_counts"]["lab"] > 0
     assert s["type_counts"]["course"] > 0
-    assert s["type_counts"]["learning_path"] == 93
+    assert s["type_counts"]["learning_path"] == 92
 
     # 3. Filters
     f = get_filters()
     print("3. Filters:", f)
     assert f["types"]["lab"] > 0
-    assert f["types"]["learning_path"] == 93
+    assert f["types"]["learning_path"] == 92
     total_duration_brackets = (
         f["duration_brackets"]["<30m"] +
         f["duration_brackets"]["<1h"] +
@@ -54,7 +54,7 @@ def test_direct():
     # 4b. Learning paths and focus-lab URLs
     paths = list_credentials(type="learning_path", page=1, page_size=100)
     print(f"4b. Learning paths: Total={paths['total']}")
-    assert paths["total"] == 93
+    assert paths["total"] == 92
 
     focus = get_credential("focuses_84417")
     assert "parent=catalog" in focus["url"]

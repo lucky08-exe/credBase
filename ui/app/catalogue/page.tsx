@@ -433,42 +433,6 @@ function CatalogueContent() {
               )}
             </div>
 
-            {/* Credential Type */}
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#20221f]/60 mb-3">
-                Credential Type
-              </p>
-              <div className="space-y-1.5">
-                {[
-                  { id: 'all', label: 'All Types', count: filterStats?.total },
-                  { id: 'lab', label: 'Hands-on Lab', count: filterStats?.types?.lab },
-                  { id: 'course', label: 'Skill Course', count: filterStats?.types?.course },
-                  { id: 'learning_path', label: 'Learning Path', count: filterStats?.types?.learning_path },
-                ].map((item) => (
-                  <button
-                    key={item.id}
-                    onClick={() => handleTypeSelect(item.id)}
-                    className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs font-semibold transition-all ${
-                      selectedType === item.id
-                        ? 'bg-[#20221f] text-white shadow-xs'
-                        : 'hover:bg-[#f5f4ef] text-[#20221f]/80'
-                    }`}
-                  >
-                    <span>{item.label}</span>
-                    {item.count !== undefined && (
-                      <span
-                        className={`text-[11px] px-2 py-0.5 rounded-full ${
-                          selectedType === item.id ? 'bg-white/20 text-white' : 'bg-[#20221f]/5 text-[#20221f]/60'
-                        }`}
-                      >
-                        {item.count}
-                      </span>
-                    )}
-                  </button>
-                ))}
-              </div>
-            </div>
-
             {/* Difficulty Level */}
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#20221f]/60 mb-3">
@@ -545,6 +509,42 @@ function CatalogueContent() {
                 ))}
               </div>
             </div>
+
+            {/* Course Type */}
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#20221f]/60 mb-3">
+                Course Type
+              </p>
+              <div className="space-y-1.5">
+                {[
+                  { id: 'all', label: 'All Types', count: filterStats?.total },
+                  { id: 'lab', label: 'Hands-on Lab', count: filterStats?.types?.lab },
+                  { id: 'course', label: 'Skill Course', count: filterStats?.types?.course },
+                  { id: 'learning_path', label: 'Learning Path', count: filterStats?.types?.learning_path },
+                ].map((item) => (
+                  <button
+                    key={item.id}
+                    onClick={() => handleTypeSelect(item.id)}
+                    className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs font-semibold transition-all ${
+                      selectedType === item.id
+                        ? 'bg-[#20221f] text-white shadow-xs'
+                        : 'hover:bg-[#f5f4ef] text-[#20221f]/80'
+                    }`}
+                  >
+                    <span>{item.label}</span>
+                    {item.count !== undefined && (
+                      <span
+                        className={`text-[11px] px-2 py-0.5 rounded-full ${
+                          selectedType === item.id ? 'bg-white/20 text-white' : 'bg-[#20221f]/5 text-[#20221f]/60'
+                        }`}
+                      >
+                        {item.count}
+                      </span>
+                    )}
+                  </button>
+                ))}
+              </div>
+            </div>
           </aside>
 
           {/* MAIN RESULTS COLUMN */}
@@ -593,7 +593,7 @@ function CatalogueContent() {
                 )}
                 {selectedType !== 'all' && (
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1 font-semibold border border-[#20221f]/15">
-                    Type: {formatTypeLabel(selectedType)}
+                    Course Type: {formatTypeLabel(selectedType)}
                     <button onClick={() => handleTypeSelect('all')} className="hover:text-[#ef6c4d]">
                       <X size={14} />
                     </button>
