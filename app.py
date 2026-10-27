@@ -1,5 +1,4 @@
 import os
-import json
 import sqlite3
 from typing import Optional
 from fastapi import FastAPI, HTTPException
@@ -8,17 +7,6 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 
 DB_PATH = os.path.join(os.path.dirname(__file__), "credentials.db")
-ENRICHED_PATH = os.path.join(os.path.dirname(__file__), "enriched_10.json")
-
-# Load enriched data into memory if present
-enriched_map = {}
-if os.path.exists(ENRICHED_PATH):
-    try:
-        with open(ENRICHED_PATH, "r", encoding="utf-8") as f:
-            for item in json.load(f):
-                enriched_map[item["id"]] = item.get("enrichment", {})
-    except Exception as e:
-        print("Warning loading enriched_10.json:", e)
 
 app = FastAPI(
     title="Google Skills Finder API",
@@ -30,7 +18,7 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=True,
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -47,7 +35,7 @@ def health_check():
     cursor.execute("SELECT COUNT(*) FROM credentials")
     total = cursor.fetchone()[0]
     conn.close()
-    return {"status": "ok", "total_records": total, "enriched_records": len(enriched_map)}
+    return {"status": "ok", "total_records": total}
 
 @app.get("/api/stats")
 def get_stats():
@@ -71,8 +59,7 @@ def get_stats():
         "total": total,
         "type_counts": type_counts,
         "level_counts": level_counts,
-        "avg_duration_minutes": avg_duration,
-        "enriched_count": len(enriched_map)
+        "avg_duration_minutes": avg_duration
     }
 
 @app.get("/api/filters")
@@ -98,7 +85,7 @@ def get_filters():
     cursor.execute("""
         SELECT
             SUM(CASE WHEN duration_minutes <= 30 THEN 1 ELSE 0 END) as under_30m,
-            SUM(CASE WHEN duration_minutes <= 60 THEN 1 ELSE 0 END) as under_1h,
+            SUM(CASE WHEN duration_minutes > 30 AND duration_minutes <= 60 THEN 1 ELSE 0 END) as between_30m_1h,
             SUM(CASE WHEN duration_minutes > 60 AND duration_minutes <= 180 THEN 1 ELSE 0 END) as between_1_3h,
             SUM(CASE WHEN duration_minutes > 180 THEN 1 ELSE 0 END) as over_3h
         FROM credentials
@@ -107,6 +94,7 @@ def get_filters():
     conn.close()
 
     return {
+        "total": sum(type_counts.values()),
         "types": type_counts,
         "levels": level_counts,
         "duration_brackets": {
@@ -114,8 +102,7 @@ def get_filters():
             "<1h": dur_row[1] or 0,
             "1-3h": dur_row[2] or 0,
             ">3h": dur_row[3] or 0
-        },
-        "enriched_count": len(enriched_map)
+        }
     }
 
 @app.get("/api/credentials")
@@ -128,8 +115,7 @@ def list_credentials(
     duration_max: Optional[int] = None,
     sort: Optional[str] = "relevance",
     page: int = 1,
-    page_size: int = 24,
-    enriched_only: bool = False
+    page_size: int = 24
 ):
     conn = get_db()
     cursor = conn.cursor()
@@ -137,6 +123,7 @@ def list_credentials(
     conditions = []
     params = []
     use_fts = False
+    fts_query = None
 
     # 1. Search Query
     if q and isinstance(q, str) and q.strip():
@@ -154,6 +141,8 @@ def list_credentials(
     # 2. Type filter
     if type and isinstance(type, str) and type.lower() != "all":
         types = [t.strip().lower() for t in type.split(",") if t.strip()]
+        # Preserve older shared URLs while using the database's canonical value.
+        types = ["learning_path" if t == "path" else t for t in types]
         if types:
             placeholders = ",".join("?" for _ in types)
             conditions.append(f"LOWER(c.type) IN ({placeholders})")
@@ -177,7 +166,7 @@ def list_credentials(
         if duration_bracket == "<30m":
             conditions.append("c.duration_minutes IS NOT NULL AND c.duration_minutes <= 30")
         elif duration_bracket == "<1h":
-            conditions.append("c.duration_minutes IS NOT NULL AND c.duration_minutes <= 60")
+            conditions.append("c.duration_minutes IS NOT NULL AND c.duration_minutes > 30 AND c.duration_minutes <= 60")
         elif duration_bracket == "1-3h":
             conditions.append("c.duration_minutes IS NOT NULL AND c.duration_minutes > 60 AND c.duration_minutes <= 180")
         elif duration_bracket == ">3h":
@@ -190,16 +179,6 @@ def list_credentials(
     if duration_max is not None and isinstance(duration_max, int):
         conditions.append("c.duration_minutes <= ?")
         params.append(duration_max)
-
-    # 5. Enriched Only
-    if enriched_only:
-        enriched_ids = list(enriched_map.keys())
-        if enriched_ids:
-            placeholders = ",".join("?" for _ in enriched_ids)
-            conditions.append(f"c.id IN ({placeholders})")
-            params.extend(enriched_ids)
-        else:
-            conditions.append("1=0")
 
     where_clause = " WHERE " + " AND ".join(conditions) if conditions else ""
 
@@ -219,7 +198,12 @@ def list_credentials(
     elif sort == "title_asc":
         order_clause = "ORDER BY c.title ASC"
     elif sort == "relevance" and use_fts:
-        order_clause = "ORDER BY c.id"
+        # FTS5 BM25 returns lower scores for stronger matches.
+        order_clause = """ORDER BY (
+            SELECT bm25(credentials_fts)
+            FROM credentials_fts
+            WHERE credentials_fts.id = c.id AND credentials_fts MATCH ?
+        ) ASC, c.title ASC"""
 
     # Pagination
     p = max(1, page if isinstance(page, int) else 1)
@@ -234,14 +218,16 @@ def list_credentials(
         LIMIT ? OFFSET ?
     """
     
-    cursor.execute(query_sql, params + [ps, offset])
+    query_params = params.copy()
+    if sort == "relevance" and use_fts:
+        query_params.append(fts_query)
+    cursor.execute(query_sql, query_params + [ps, offset])
     rows = cursor.fetchall()
 
     items = []
     for r in rows:
         item = dict(r)
         item["paid"] = False
-        item["enrichment"] = enriched_map.get(item["id"], None)
         items.append(item)
 
     conn.close()
@@ -272,7 +258,6 @@ def get_credential(credential_id: str):
 
     item = dict(row)
     item["paid"] = False
-    item["enrichment"] = enriched_map.get(item["id"], None)
     return item
 
 # Mount static folder (guarded — may not exist in serverless environments)
