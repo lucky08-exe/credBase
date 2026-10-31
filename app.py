@@ -23,6 +23,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.middleware("http")
+async def add_no_cache_headers(request, call_next):
+    response = await call_next(request)
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
+
 def get_db():
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
@@ -188,7 +196,9 @@ def list_credentials(
     total = cursor.fetchone()[0]
 
     # Order Clause
-    order_clause = "ORDER BY c.title ASC"
+    # Default browse (no query, no explicit sort): recommended items first, then alphabetical.
+    # When searching or using an explicit sort, recommended pinning is bypassed.
+    has_filters = bool(conditions)
     if sort == "duration_asc":
         order_clause = "ORDER BY CASE WHEN c.duration_minutes IS NULL THEN 1 ELSE 0 END, c.duration_minutes ASC, c.title ASC"
     elif sort == "duration_desc":
@@ -204,6 +214,11 @@ def list_credentials(
             FROM credentials_fts
             WHERE credentials_fts.id = c.id AND credentials_fts MATCH ?
         ) ASC, c.title ASC"""
+    elif not has_filters:
+        # Default browse: ranked credentials first (1, 2, 3...), then alphabetical
+        order_clause = "ORDER BY CASE WHEN c.rank IS NOT NULL THEN 0 ELSE 1 END, c.rank ASC, c.title ASC"
+    else:
+        order_clause = "ORDER BY c.title ASC"
 
     # Pagination
     p = max(1, page if isinstance(page, int) else 1)
@@ -211,7 +226,7 @@ def list_credentials(
     offset = (p - 1) * ps
 
     query_sql = f"""
-        SELECT c.id, c.title, c.description, c.duration, c.duration_minutes, c.url, c.type, c.level
+        SELECT c.id, c.title, c.description, c.duration, c.duration_minutes, c.url, c.type, c.level, c.rank, CASE WHEN c.rank IS NOT NULL THEN 1 ELSE 0 END as recommended
         FROM credentials c
         {where_clause}
         {order_clause}
@@ -246,7 +261,7 @@ def get_credential(credential_id: str):
     conn = get_db()
     cursor = conn.cursor()
     cursor.execute("""
-        SELECT id, title, description, duration, duration_minutes, url, type, level
+        SELECT id, title, description, duration, duration_minutes, url, type, level, rank, CASE WHEN rank IS NOT NULL THEN 1 ELSE 0 END as recommended
         FROM credentials
         WHERE id = ?
     """, (credential_id,))
@@ -329,7 +344,7 @@ def serve_static_or_spa(filename: str):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("app:app", host="127.0.0.1", port=8000, reload=True)
+    uvicorn.run("app:app", host="127.0.0.1", port=8001, reload=True)
 
 # Vercel / AWS Lambda serverless entry point
 from mangum import Mangum
